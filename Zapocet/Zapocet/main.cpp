@@ -1,4 +1,5 @@
 #include"Mesh.h"
+#include "Model.h"
 
 const unsigned int width = 800;
 const unsigned int height = 800;
@@ -119,21 +120,22 @@ int main()
 	glViewport(0, 0, width, height);
 
 	Texture textures[]{
-		// Texture
+		// Textures
 		Texture("sand.png", "diffuse", GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
 		Texture("sandSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
 	};
 
 	// Generates Shader object using shaders default.vert and default.frag
 	Shader shaderProgram("default.vert", "default.frag");
+	// Ceating model of pyramid
 	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector<GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
 	std::vector<Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
 	Mesh floor(verts, ind, tex);
 
-
 	// Shader for light cube
 	Shader lightShader("light.vert", "light.frag");
+	// Creazing model of Sun
 	std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 	std::vector<GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 	Mesh light(lightVerts, lightInd, tex);
@@ -164,6 +166,8 @@ int main()
 	// Creates camera object
 	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
+	Model model("sword/scene.gltf");
+
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -176,6 +180,8 @@ int main()
 		camera.Inputs(window);
 		// Updates and exports the camera matrix to the Vertex Shader
 		camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
+
+		model.Draw(shaderProgram, camera);
 
 		floor.Draw(shaderProgram, camera);
 		light.Draw(lightShader, camera);
