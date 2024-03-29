@@ -1,5 +1,6 @@
 #include"Mesh.h"
 #include "Model.h"
+#include <chrono>
 
 const unsigned int width = 800;
 const unsigned int height = 800;
@@ -164,7 +165,7 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 	// Creates camera object
-	Camera camera(width, height, glm::vec3(0.5f, 0.0f, 2.0f));
+	Camera camera(width, height, glm::vec3(2.5f, 0.5f, 1.8f));
 
 	Model sword("sword/scene.gltf");
 	glm::vec3 swordPos = glm::vec3(0.7f, 0.5f, 0.0f);
@@ -178,9 +179,14 @@ int main()
 	glm::quat scrollRotation = glm::quat(1.0f, 0.0f, 0.0f, 0.5f);
 	glm::vec3 scrollScale = glm::vec3(0.002f, 0.002f, 0.002f);
 
+	
+
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
+		// current time at the beginning of the loop (FPS purposes)
+		auto start = std::chrono::steady_clock::now();
+
 		// Specify the color of the background
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		// Clean the back buffer and depth buffer
@@ -201,6 +207,15 @@ int main()
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
 		glfwPollEvents();
+
+
+		// current time at the end of the loop
+		auto end = std::chrono::steady_clock::now();
+		// Calculate FPS
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+		auto fpsCount = 60000000 / duration.count();
+		std::cout << "FPS: " << fpsCount << std::endl;
+		// pise mi to pres milion FPS :D to je docela sus
 	}
 
 
