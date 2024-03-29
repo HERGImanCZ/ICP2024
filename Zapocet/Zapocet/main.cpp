@@ -131,7 +131,7 @@ int main()
 	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector<GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
 	std::vector<Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
-	Mesh floor(verts, ind, tex);
+	Mesh pyramid(verts, ind, tex);
 
 	// Shader for light cube
 	Shader lightShader("light.vert", "light.frag");
@@ -183,8 +183,8 @@ int main()
 
 		model.Draw(shaderProgram, camera);
 
-		floor.Draw(shaderProgram, camera);
-		light.Draw(lightShader, camera);
+		pyramid.Draw(shaderProgram, camera, pyramidModel, pyramidPos);
+		light.Draw(lightShader, camera, lightModel, lightPos);
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
