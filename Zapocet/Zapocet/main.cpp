@@ -143,7 +143,7 @@ int main()
 
 
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.7f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPos);
 
@@ -179,6 +179,10 @@ int main()
 	glm::quat scrollRotation = glm::quat(1.0f, 0.0f, 0.0f, 0.5f);
 	glm::vec3 scrollScale = glm::vec3(0.002f, 0.002f, 0.002f);
 
+	//promenne pro pohyb
+	float scrollMovePos = 0.5f;
+	float scrollMoveSpeed = 0.0001f;
+	bool moveToLeft = true;
 	
 
 	// Main while loop
@@ -197,6 +201,25 @@ int main()
 		// Updates and exports the camera matrix to the Vertex Shader
 		camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
+		// Pohyb svitku
+		if (moveToLeft) {
+			scrollMovePos -= scrollMoveSpeed;
+			if (scrollMovePos <= 0.3f) {
+				moveToLeft = false;
+			}
+		}
+		else {
+			scrollMovePos += scrollMoveSpeed;
+			if (scrollMovePos >= 0.5f) {
+				moveToLeft = true;
+			}
+		}
+		//scroll model reset with new position
+		scrollMatrix = glm::mat4(1.0f);
+		scrollPos = glm::vec3(0.5f, scrollMovePos, -0.5f);
+		scrollMatrix = glm::translate(scrollMatrix, scrollPos);
+
+
 		sword.Draw(shaderProgram, camera, swordMatrix, swordPos, swordRotation, swordScale);
 		scroll.Draw(shaderProgram, camera, scrollMatrix, scrollPos, scrollRotation, scrollScale);
 
@@ -213,9 +236,8 @@ int main()
 		auto end = std::chrono::steady_clock::now();
 		// Calculate FPS
 		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-		auto fpsCount = 60000000 / duration.count();
+		auto fpsCount = 1000000 / duration.count();
 		std::cout << "FPS: " << fpsCount << std::endl;
-		// pise mi to pres milion FPS :D to je docela sus
 	}
 
 
