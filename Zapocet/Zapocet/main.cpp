@@ -126,7 +126,7 @@ int main()
 	};
 
 	// Generates Shader object using shaders default.vert and default.frag
-	Shader shaderProgram("object.vert", "object.frag");
+	Shader shaderProgram("default.vert", "default.frag");
 	// Ceating model of pyramid
 	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector<GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
