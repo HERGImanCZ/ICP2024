@@ -164,9 +164,19 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 	// Creates camera object
-	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+	Camera camera(width, height, glm::vec3(0.5f, 0.0f, 2.0f));
 
-	Model model("sword/scene.gltf");
+	Model sword("sword/scene.gltf");
+	glm::vec3 swordPos = glm::vec3(0.7f, 0.5f, 0.0f);
+	glm::mat4 swordMatrix = glm::mat4(1.0f);
+	glm::quat swordRotation = glm::quat(0.5f, 0.2f, -0.4f, 0.0f);
+	glm::vec3 swordScale = glm::vec3(0.01f, 0.01f, 0.01f);
+
+	Model scroll("scroll/scene.gltf");
+	glm::vec3 scrollPos = glm::vec3(0.5f, 0.5f, -0.5f);
+	glm::mat4 scrollMatrix = glm::mat4(1.0f);
+	glm::quat scrollRotation = glm::quat(1.0f, 0.0f, 0.0f, 0.5f);
+	glm::vec3 scrollScale = glm::vec3(0.002f, 0.002f, 0.002f);
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -181,7 +191,8 @@ int main()
 		// Updates and exports the camera matrix to the Vertex Shader
 		camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
-		model.Draw(shaderProgram, camera);
+		sword.Draw(shaderProgram, camera, swordMatrix, swordPos, swordRotation, swordScale);
+		scroll.Draw(shaderProgram, camera, scrollMatrix, scrollPos, scrollRotation, scrollScale);
 
 		pyramid.Draw(shaderProgram, camera, pyramidModel, pyramidPos);
 		light.Draw(lightShader, camera, lightModel, lightPos);

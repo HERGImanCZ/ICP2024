@@ -23,6 +23,15 @@ void Model::Draw(Shader& shader, Camera& camera)
 	}
 }
 
+void Model::Draw(Shader& shader, Camera& camera, glm::mat4 matrix, glm::vec3 translation, glm::quat rotation, glm::vec3 scale)
+{
+	// Go over all meshes and draw each one
+	for (unsigned int i = 0; i < meshes.size(); i++)
+	{
+		meshes[i].Mesh::Draw(shader, camera, matrix, translation, rotation, scale);
+	}
+}
+
 void Model::loadMesh(unsigned int indMesh)
 {
 	// Get all accessor indices
