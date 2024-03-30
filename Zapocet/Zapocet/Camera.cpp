@@ -183,6 +183,7 @@ void Camera::ToggleFullscreen(GLFWwindow* window)
 	}
 }
 
+// Colisions
 void Camera::CheckColisionConditions(glm::vec3 Position) {
 	if (Position.y < 0.11f)
 		Position.y = this->Position.y;
@@ -195,25 +196,12 @@ void Camera::CheckColisionConditions(glm::vec3 Position) {
 		}
 	}
 
-	/*if ((Position.x >= (Position.y - 0.8) / 1.6) && (Position.x <= -(Position.y - 0.8) / 1.6))
-		Position.x = this->Position.x;
-
-	if ((Position.z >= (Position.y - 0.8) / 1.6) && (Position.z <= -(Position.y - 0.8) / 1.6))
-		Position.z = this->Position.z;*/
-
 	if ((Position.x >= (Position.y - 1.03) / 1.6) && (Position.x <= -(Position.y - 1.03) / 1.6)
 		&& (Position.z >= (Position.y - 1.03) / 1.6) && (Position.z <= -(Position.y - 1.03) / 1.6))
 	{
 		Position.x = this->Position.x;
 		Position.z = this->Position.z;
-		//Position = this->Position;
 	}
-
-	/*if ((Position.y >= (1.6 * Position.x + 1.02)) && Position.y <= (-1.6 * Position.x + 1.02)
-		&& (Position.y >= (1.6 * Position.z + 1.02)) && Position.y <= (-1.6 * Position.z + 1.02)
-		&& (Position.x >= (Position.y - 1.02) / 1.6) && (Position.x <= -(Position.y - 1.02) / 1.6)
-		&& (Position.z >= (Position.y - 1.02) / 1.6) && (Position.z <= -(Position.y - 1.02) / 1.6))
-		Position.y = this->Position.y;*/
 
 	this->Position = Position;
 }
