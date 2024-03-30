@@ -1,2 +1,23 @@
-﻿  main.cpp
+﻿  Camera.cpp
+glfw3.lib(monitor.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(monitor.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(window.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(window.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(input.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(input.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(init.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(init.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(context.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(context.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(win32_thread.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(win32_thread.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(win32_time.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(win32_time.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(platform.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(platform.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(vulkan.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(vulkan.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(win32_init.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(win32_init.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(null_init.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(null_init.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(win32_module.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(win32_module.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(win32_monitor.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(win32_monitor.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(win32_window.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(win32_window.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(win32_joystick.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(win32_joystick.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(wgl_context.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(wgl_context.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(egl_context.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(egl_context.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(osmesa_context.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(osmesa_context.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(null_monitor.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(null_monitor.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(null_window.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(null_window.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+glfw3.lib(null_joystick.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(null_joystick.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
   Zapocet.vcxproj -> D:\ICP\Semestrálka\ICP2024\Zapocet\x64\Debug\Zapocet.exe

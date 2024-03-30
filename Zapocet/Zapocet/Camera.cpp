@@ -1,11 +1,13 @@
 #include"Camera.h"
+#include <chrono>
 
-
-
+int orgW, orgH;
 Camera::Camera(int width, int height, glm::vec3 position)
 {
 	Camera::width = width;
+	orgW = width;
 	Camera::height = height;
+	orgH = height;
 	Position = position;
 }
 
@@ -106,5 +108,52 @@ void Camera::Inputs(GLFWwindow* window)
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		// Makes sure the next time the camera looks around it doesn't jump
 		firstClick = true;
+	}
+}
+
+void Camera::ToggleFullscreen(GLFWwindow* window)
+{
+	auto currentTime = std::chrono::steady_clock::now();
+
+	// Making sure it can't be toggled all the time so it doesn't glitch
+	if (std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastActionTime).count() < 100)
+	{
+		return;
+	}
+	lastActionTime = currentTime;
+
+	// New dimensions
+	int newWidth, newHeight;
+	glfwGetWindowSize(window, &newWidth, &newHeight);
+
+	// Update OpenGL viewport
+	glViewport(0, 0, newWidth, newHeight);
+
+	// Update dimensions
+	width = newWidth;
+	height = newHeight;
+
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+	{
+		// Gets the current monitor of the window
+		GLFWmonitor* monitor = glfwGetWindowMonitor(window);
+
+		// If window is in fullscreen mode, switch back to windowed mode
+		if (monitor != NULL)
+		{
+			// Get the video mode of the primary monitor
+			const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+			// Set windowed mode with the same size as before
+			glfwSetWindowMonitor(window, NULL, 100, 100, orgW, orgH, GLFW_DONT_CARE);
+		}
+		else // Switch to fullscreen mode
+		{
+			// Get the primary monitor
+			GLFWmonitor* primary = glfwGetPrimaryMonitor();
+			// Get the video mode of the primary monitor
+			const GLFWvidmode* mode = glfwGetVideoMode(primary);
+			// Set fullscreen mode
+			glfwSetWindowMonitor(window, primary, 0, 0, mode->width, mode->height, mode->refreshRate);
+		}
 	}
 }

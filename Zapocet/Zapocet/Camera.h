@@ -12,8 +12,11 @@
 #include <glm/gtx/vector_angle.hpp>
 
 #include "shaderClass.h"
+#include <chrono>
 
 class Camera {
+private:
+	std::chrono::steady_clock::time_point lastActionTime;
 public:
 	glm::vec3 Position;
 	glm::vec3 Orientation = glm::vec3(-0.7f, 0.0f, -0.6f);
@@ -34,6 +37,7 @@ public:
 	// Exports the camera matrix to a shader
 	void Matrix(Shader& shader, const char* uniform);
 	void Inputs(GLFWwindow* window);
+	void ToggleFullscreen(GLFWwindow* window);
 
 };
 
