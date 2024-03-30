@@ -1,0 +1,2 @@
+﻿  glad.c
+D:\ICP\Semestrálka\icp-project\Zapocet\glad.c(25,10): fatal  error C1083: Nejde otevřít soubor zahrnout: glad/glad.h: No such file or directory

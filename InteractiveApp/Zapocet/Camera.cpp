@@ -1,0 +1,209 @@
+#include"Camera.h"
+#include <chrono>
+
+int orgW, orgH;
+int Vsync = 0;
+Camera::Camera(int width, int height, glm::vec3 position)
+{
+	Camera::width = width;
+	orgW = width;
+	Camera::height = height;
+	orgH = height;
+	Position = position;
+}
+
+void Camera::UpdateMatrix(float FOVdeg, float nearPlane, float farPlane)
+{
+	// Initializes matrices since otherwise they will be the null matrix
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+
+	// Makes camera look in the right direction from the right position
+	view = glm::lookAt(Position, Position + Orientation, Up);
+	// Adds perspective to the scene
+	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
+
+	// Sets new camera matrix
+	cameraMatrix = projection * view;
+}
+
+void Camera::Matrix(Shader& shader, const char* uniform)
+{
+	// Exports camera matrix
+	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
+}
+
+double lastFrameTime = glfwGetTime();
+void Camera::Inputs(GLFWwindow* window)
+{
+	double currentFrameTime = glfwGetTime();
+	double deltaTime = currentFrameTime - lastFrameTime;
+	lastFrameTime = currentFrameTime;
+
+	glm::vec3 Position = this->Position;
+
+	// Handles key inputs
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		float speed = this->speed * deltaTime;
+		Position += speed * Orientation;
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		float speed = this->speed * deltaTime;
+		Position += speed * -glm::normalize(glm::cross(Orientation, Up));
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		float speed = this->speed * deltaTime;
+		Position += speed * -Orientation;
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		float speed = this->speed * deltaTime;
+		Position += speed * glm::normalize(glm::cross(Orientation, Up));
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
+		float speed = this->speed * deltaTime;
+		Position += speed * Up;
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+	{
+		float speed = this->speed * deltaTime;
+		Position += speed * -Up;
+	}
+	CheckColisionConditions(Position);
+
+	// Hides mouse cursor
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+	// Prevents camera from jumping on the first click
+	if (firstClick)
+	{
+		glfwSetCursorPos(window, (width / 2), (height / 2));
+		firstClick = false;
+	}
+
+	// Stores the coordinates of the cursor
+	double mouseX;
+	double mouseY;
+	// Fetches the coordinates of the cursor
+	glfwGetCursorPos(window, &mouseX, &mouseY);
+
+	// Normalizes and shifts the coordinates of the cursor such that they begin in the middle of the screen
+	// and then "transforms" them into degrees 
+	float rotX = sensitivity * (float)(mouseY - (height / 2)) / height;
+	float rotY = sensitivity * (float)(mouseX - (width / 2)) / width;
+
+	// Calculates upcoming vertical change in the Orientation
+	glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
+
+	// Decides whether or not the next vertical Orientation is legal or not
+	if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
+	{
+		Orientation = newOrientation;
+	}
+
+	// Rotates the Orientation left and right
+	Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
+
+	// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
+	glfwSetCursorPos(window, (width / 2), (height / 2));
+}
+
+void Camera::ScreenSetting(GLFWwindow* window)
+{
+	// App shutdown
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		std::cout << "Application shutdown...\n";
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
+
+	auto currentTime = std::chrono::steady_clock::now();
+
+	// Making sure it can't be toggled all the time so it doesn't glitch
+	if (std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastActionTime).count() < 250)
+	{
+		return;
+	}
+
+	// New dimensions
+	int newWidth, newHeight;
+	glfwGetWindowSize(window, &newWidth, &newHeight);
+
+	// Update OpenGL viewport
+	glViewport(0, 0, newWidth, newHeight);
+
+	// Update dimensions
+	width = newWidth;
+	height = newHeight;
+
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+	{
+		lastActionTime = currentTime;
+
+		// Gets the current monitor of the window
+		GLFWmonitor* monitor = glfwGetWindowMonitor(window);
+
+		// If window is in fullscreen mode, switch back to windowed mode
+		if (monitor != NULL)
+		{
+			// Get the video mode of the primary monitor
+			const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+			// Set windowed mode with the same size as before
+			glfwSetWindowMonitor(window, NULL, 100, 100, orgW, orgH, GLFW_DONT_CARE);
+			std::cout << "Fullscreen off!\n";
+		}
+		else // Switch to fullscreen mode
+		{
+			// Get the primary monitor
+			GLFWmonitor* primary = glfwGetPrimaryMonitor();
+			// Get the video mode of the primary monitor
+			const GLFWvidmode* mode = glfwGetVideoMode(primary);
+			// Set fullscreen mode
+			glfwSetWindowMonitor(window, primary, 0, 0, mode->width, mode->height, mode->refreshRate);
+			std::cout << "Fullscreen on!\n";
+		}
+	}
+
+	// Swap Vsynch
+	if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+	{
+		lastActionTime = currentTime;
+		if(Vsync == 0){
+			glfwSwapInterval(1);
+			Vsync = 1;
+			std::cout << "Vsync on!\n";
+		}
+		else {
+			glfwSwapInterval(0);
+			Vsync = 0;
+			std::cout << "Vsync off!\n";
+		}
+	}
+
+}
+
+// Collisions
+void Camera::CheckColisionConditions(glm::vec3 Position) {
+	if (Position.y < 0.11f)
+		Position.y = this->Position.y;
+
+	if(Position.y <this->Position.y){
+		if ((Position.y <= (1.6 * Position.x + 1.035)) && Position.y <= (-1.6 * Position.x + 1.035)
+			&& (Position.y <= (1.6 * Position.z + 1.035)) && Position.y <= (-1.6 * Position.z + 1.035)) 
+		{
+			Position.y = this->Position.y;
+		}
+	}
+
+	if ((Position.x >= (Position.y - 1.035) / 1.6) && (Position.x <= -(Position.y - 1.035) / 1.6)
+		&& (Position.z >= (Position.y - 1.035) / 1.6) && (Position.z <= -(Position.y - 1.035) / 1.6))
+	{
+		Position.x = this->Position.x;
+		Position.z = this->Position.z;
+	}
+
+	this->Position = Position;
+}

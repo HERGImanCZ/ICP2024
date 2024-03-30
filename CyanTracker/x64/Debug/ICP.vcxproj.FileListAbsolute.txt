@@ -1,0 +1,4 @@
+C:\Users\konev\Desktop\Aplikovaná informatika\3. semestr  -  ZS  23 I 24 (1. ročník)\ICP - Interakce člověka s počítačem\Cvičení\00 setup project\ICP\x64\Debug\ICP.exe
+C:\Users\konev\Desktop\Aplikovaná informatika\3. semestr  -  ZS  23 I 24 (1. ročník)\ICP - Interakce člověka s počítačem\Cvičení\02 static hsv, video\ICP\x64\Debug\ICP.exe
+D:\ICP\Náš občasný progress na hodinách\02 static hsv, video\ICP\x64\Debug\ICP.exe
+D:\ICP\Semestrálka\ICP2024\CyanTracker\x64\Debug\ICP.exe

@@ -1,0 +1,22 @@
+﻿  ICP.cpp
+D:\ICP\Semestrálka\ICP2024\CyanTracker\ICP.cpp(128,22): warning C4244: =: double se převádí na _Tp; může dojít ke ztrátě dat.
+          with
+          [
+              _Tp=float
+          ]
+D:\ICP\Semestrálka\ICP2024\CyanTracker\ICP.cpp(129,22): warning C4244: =: double se převádí na _Tp; může dojít ke ztrátě dat.
+          with
+          [
+              _Tp=float
+          ]
+D:\ICP\Semestrálka\ICP2024\CyanTracker\ICP.cpp(150,22): warning C4244: =: double se převádí na _Tp; může dojít ke ztrátě dat.
+          with
+          [
+              _Tp=float
+          ]
+D:\ICP\Semestrálka\ICP2024\CyanTracker\ICP.cpp(151,22): warning C4244: =: double se převádí na _Tp; může dojít ke ztrátě dat.
+          with
+          [
+              _Tp=float
+          ]
+  ICP.vcxproj -> D:\ICP\Semestrálka\ICP2024\CyanTracker\x64\Debug\ICP.exe
