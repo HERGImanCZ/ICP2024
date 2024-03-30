@@ -12,3 +12,4 @@ Ovládádní:
 * klesání (pohyb dolu): ctrl 
 * fullscreen: H
 * zapnutí/vypnutí vertikální synchronizace: V
+* ukončení aplikace: ESC
