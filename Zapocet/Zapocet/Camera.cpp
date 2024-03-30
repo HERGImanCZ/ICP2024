@@ -40,6 +40,8 @@ void Camera::Inputs(GLFWwindow* window)
 	double deltaTime = currentFrameTime - lastFrameTime;
 	lastFrameTime = currentFrameTime;
 
+	glm::vec3 Position = this->Position;
+
 	// Handles key inputs
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -71,7 +73,7 @@ void Camera::Inputs(GLFWwindow* window)
 		float speed = this->speed * deltaTime;
 		Position += speed * -Up;
 	}
-
+	CheckColisionConditions(Position);
 
 	// Handles mouse inputs
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
@@ -179,4 +181,39 @@ void Camera::ToggleFullscreen(GLFWwindow* window)
 			Vsync = 0;
 		}
 	}
+}
+
+void Camera::CheckColisionConditions(glm::vec3 Position) {
+	if (Position.y < 0.11f)
+		Position.y = this->Position.y;
+
+	if(Position.y <this->Position.y){
+		if ((Position.y <= (1.6 * Position.x + 1.03)) && Position.y <= (-1.6 * Position.x + 1.03)
+			&& (Position.y <= (1.6 * Position.z + 1.03)) && Position.y <= (-1.6 * Position.z + 1.03)) 
+		{
+			Position.y = this->Position.y;
+		}
+	}
+
+	/*if ((Position.x >= (Position.y - 0.8) / 1.6) && (Position.x <= -(Position.y - 0.8) / 1.6))
+		Position.x = this->Position.x;
+
+	if ((Position.z >= (Position.y - 0.8) / 1.6) && (Position.z <= -(Position.y - 0.8) / 1.6))
+		Position.z = this->Position.z;*/
+
+	if ((Position.x >= (Position.y - 1.03) / 1.6) && (Position.x <= -(Position.y - 1.03) / 1.6)
+		&& (Position.z >= (Position.y - 1.03) / 1.6) && (Position.z <= -(Position.y - 1.03) / 1.6))
+	{
+		Position.x = this->Position.x;
+		Position.z = this->Position.z;
+		//Position = this->Position;
+	}
+
+	/*if ((Position.y >= (1.6 * Position.x + 1.02)) && Position.y <= (-1.6 * Position.x + 1.02)
+		&& (Position.y >= (1.6 * Position.z + 1.02)) && Position.y <= (-1.6 * Position.z + 1.02)
+		&& (Position.x >= (Position.y - 1.02) / 1.6) && (Position.x <= -(Position.y - 1.02) / 1.6)
+		&& (Position.z >= (Position.y - 1.02) / 1.6) && (Position.z <= -(Position.y - 1.02) / 1.6))
+		Position.y = this->Position.y;*/
+
+	this->Position = Position;
 }

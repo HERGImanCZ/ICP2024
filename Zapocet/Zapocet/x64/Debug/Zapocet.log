@@ -1,20 +1,8 @@
 ﻿  Camera.cpp
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(46,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(51,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(56,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(61,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(66,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(71,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
-  Mesh.cpp
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Mesh.cpp(77,65): warning C4267: argument: Převod z: size_t na: GLsizei, může dojít ke ztrátě dat.
-  Model.cpp
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Model.cpp(271,93): warning C4267: argument: Převod z: size_t na: GLuint, může dojít ke ztrátě dat.
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Model.cpp(279,95): warning C4267: argument: Převod z: size_t na: GLuint, může dojít ke ztrátě dat.
-  main.cpp
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\main.cpp(305,37): warning C4244: -=: double se převádí na float; může dojít ke ztrátě dat.
-D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\main.cpp(311,37): warning C4244: +=: double se převádí na float; může dojít ke ztrátě dat.
-  Generování kódu...
-glfw3.lib(monitor.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(monitor.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
-glfw3.lib(null_monitor.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(null_monitor.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
-glfw3.lib(win32_joystick.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(win32_joystick.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
+D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(48,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
+D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(53,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
+D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(58,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
+D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(63,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
+D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(68,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
+D:\ICP\Semestrálka\ICP2024\Zapocet\Zapocet\Camera.cpp(73,15): warning C4244: inicializování: double se převádí na float; může dojít ke ztrátě dat.
   Zapocet.vcxproj -> D:\ICP\Semestrálka\ICP2024\Zapocet\x64\Debug\Zapocet.exe

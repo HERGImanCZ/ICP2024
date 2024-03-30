@@ -17,6 +17,8 @@
 class Camera {
 private:
 	std::chrono::steady_clock::time_point lastActionTime;
+
+	void CheckColisionConditions(glm::vec3 Position);
 public:
 	glm::vec3 Position;
 	glm::vec3 Orientation = glm::vec3(-0.7f, 0.0f, -0.6f);
