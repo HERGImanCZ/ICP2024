@@ -251,13 +251,33 @@ int main()
 
 	//promenne pro pohyb
 	float scrollMovePos = 0.5f;
-	float scrollMoveSpeed = 0.0001f;
+	float scrollMoveSpeed = 0.1f;
 	bool moveToLeft = true;
+	// Promìnná pro uložení èasu posledního snímku
+	double lastFrameTime = glfwGetTime();
 	
+	// FPS counter preparation
+	double prevTime = 0.0;
+	double crntTime = 0.0;
+	double timeDiff;
+	unsigned int counter = 0;
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
+		crntTime = glfwGetTime();
+		timeDiff = crntTime - prevTime;
+		counter++;
+		// every second
+		if (timeDiff >= 1.0)
+		{
+			std::string FPS = std::to_string((1.0 / timeDiff) * counter);
+			std::cout << "FPS: " << FPS << std::endl;
+			glfwSetWindowTitle(window, ("Amogus: " + FPS + " FPS").c_str());
+			prevTime = crntTime;
+			counter = 0;
+		}
+
 		// current time at the beginning of the loop (FPS purposes)
 		auto start = std::chrono::steady_clock::now();
 
@@ -273,15 +293,22 @@ int main()
 
 		camera.ToggleFullscreen(window);
 
+		// Získání aktuálního èasu
+		double currentFrameTime = glfwGetTime();
+		// Výpoèet èasového rozdílu od posledního snímku
+		double deltaTime = currentFrameTime - lastFrameTime;
+		// Aktualizace èasu posledního snímku
+		lastFrameTime = currentFrameTime;
+
 		// Pohyb svitku
 		if (moveToLeft) {
-			scrollMovePos -= scrollMoveSpeed;
+			scrollMovePos -= scrollMoveSpeed * deltaTime;
 			if (scrollMovePos <= 0.3f) {
 				moveToLeft = false;
 			}
 		}
 		else {
-			scrollMovePos += scrollMoveSpeed;
+			scrollMovePos += scrollMoveSpeed * deltaTime;
 			if (scrollMovePos >= 0.5f) {
 				moveToLeft = true;
 			}
@@ -306,13 +333,6 @@ int main()
 		// Take care of all GLFW events
 		glfwPollEvents();
 
-
-		// current time at the end of the loop
-		auto end = std::chrono::steady_clock::now();
-		// Calculate FPS
-		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-		auto fpsCount = 1000000 / duration.count();
-		std::cout << "FPS: " << fpsCount << std::endl;
 	}
 
 

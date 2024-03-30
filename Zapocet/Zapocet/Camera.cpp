@@ -2,6 +2,7 @@
 #include <chrono>
 
 int orgW, orgH;
+int Vsync = 1;
 Camera::Camera(int width, int height, glm::vec3 position)
 {
 	Camera::width = width;
@@ -32,33 +33,42 @@ void Camera::Matrix(Shader& shader, const char* uniform)
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
 
-
-
+double lastFrameTime = glfwGetTime();
 void Camera::Inputs(GLFWwindow* window)
 {
+	double currentFrameTime = glfwGetTime();
+	double deltaTime = currentFrameTime - lastFrameTime;
+	lastFrameTime = currentFrameTime;
+
 	// Handles key inputs
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
+		float speed = this->speed * deltaTime;
 		Position += speed * Orientation;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
+		float speed = this->speed * deltaTime;
 		Position += speed * -glm::normalize(glm::cross(Orientation, Up));
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
+		float speed = this->speed * deltaTime;
 		Position += speed * -Orientation;
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
+		float speed = this->speed * deltaTime;
 		Position += speed * glm::normalize(glm::cross(Orientation, Up));
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
+		float speed = this->speed * deltaTime;
 		Position += speed * Up;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 	{
+		float speed = this->speed * deltaTime;
 		Position += speed * -Up;
 	}
 
@@ -154,6 +164,19 @@ void Camera::ToggleFullscreen(GLFWwindow* window)
 			const GLFWvidmode* mode = glfwGetVideoMode(primary);
 			// Set fullscreen mode
 			glfwSetWindowMonitor(window, primary, 0, 0, mode->width, mode->height, mode->refreshRate);
+		}
+	}
+
+	// Swap Vsynch
+	if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+	{
+		if(Vsync == 0){
+			glfwSwapInterval(1);
+			Vsync = 1;
+		}
+		else {
+			glfwSwapInterval(0);
+			Vsync = 0;
 		}
 	}
 }
