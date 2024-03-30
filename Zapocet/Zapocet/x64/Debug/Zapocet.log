@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-﻿  Zapocet.vcxproj -> D:\ICP\Semestrálka\ICP2024\Zapocet\x64\Debug\Zapocet.exe
-=======
 ﻿  glad.c
   Camera.cpp
   EBO.cpp
@@ -39,4 +36,3 @@ glfw3.lib(null_monitor.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.
 glfw3.lib(null_window.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(null_window.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
 glfw3.lib(null_joystick.obj) : warning LNK4099: Soubor .pdb  se nenašel s glfw3.lib(null_joystick.obj) nebo na . Objekt se propojí, jako by nebyly dostupné žádné ladicí informace.
   Zapocet.vcxproj -> D:\ICP\Semestrálka\ICP2024\Zapocet\x64\Debug\Zapocet.exe
->>>>>>> Stashed changes

@@ -1,4 +1,6 @@
 #include"Mesh.h"
+#include "Model.h"
+#include <chrono>
 
 const unsigned int width = 800;
 const unsigned int height = 800;
@@ -119,28 +121,29 @@ int main()
 	glViewport(0, 0, width, height);
 
 	Texture textures[]{
-		// Texture
+		// Textures
 		Texture("sand.png", "diffuse", GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
 		Texture("sandSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
 	};
 
 	// Generates Shader object using shaders default.vert and default.frag
 	Shader shaderProgram("default.vert", "default.frag");
+	// Ceating model of pyramid
 	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector<GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
 	std::vector<Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
-	Mesh floor(verts, ind, tex);
-
+	Mesh pyramid(verts, ind, tex);
 
 	// Shader for light cube
 	Shader lightShader("light.vert", "light.frag");
+	// Creazing model of Sun
 	std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 	std::vector<GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 	Mesh light(lightVerts, lightInd, tex);
 
 
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.7f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPos);
 
@@ -162,11 +165,32 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 	// Creates camera object
-	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+	Camera camera(width, height, glm::vec3(2.5f, 0.5f, 1.8f));
+
+	Model sword("sword/scene.gltf");
+	glm::vec3 swordPos = glm::vec3(0.7f, 0.5f, 0.0f);
+	glm::mat4 swordMatrix = glm::mat4(1.0f);
+	glm::quat swordRotation = glm::quat(0.5f, 0.2f, -0.4f, 0.0f);
+	glm::vec3 swordScale = glm::vec3(0.01f, 0.01f, 0.01f);
+
+	Model scroll("scroll/scene.gltf");
+	glm::vec3 scrollPos = glm::vec3(0.5f, 0.5f, -0.5f);
+	glm::mat4 scrollMatrix = glm::mat4(1.0f);
+	glm::quat scrollRotation = glm::quat(1.0f, 0.0f, 0.0f, 0.5f);
+	glm::vec3 scrollScale = glm::vec3(0.002f, 0.002f, 0.002f);
+
+	//promenne pro pohyb
+	float scrollMovePos = 0.5f;
+	float scrollMoveSpeed = 0.0001f;
+	bool moveToLeft = true;
+	
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
+		// current time at the beginning of the loop (FPS purposes)
+		auto start = std::chrono::steady_clock::now();
+
 		// Specify the color of the background
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		// Clean the back buffer and depth buffer
@@ -177,13 +201,43 @@ int main()
 		// Updates and exports the camera matrix to the Vertex Shader
 		camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
-		floor.Draw(shaderProgram, camera);
-		light.Draw(lightShader, camera);
+		// Pohyb svitku
+		if (moveToLeft) {
+			scrollMovePos -= scrollMoveSpeed;
+			if (scrollMovePos <= 0.3f) {
+				moveToLeft = false;
+			}
+		}
+		else {
+			scrollMovePos += scrollMoveSpeed;
+			if (scrollMovePos >= 0.5f) {
+				moveToLeft = true;
+			}
+		}
+		//scroll model reset with new position
+		scrollMatrix = glm::mat4(1.0f);
+		scrollPos = glm::vec3(0.5f, scrollMovePos, -0.5f);
+		scrollMatrix = glm::translate(scrollMatrix, scrollPos);
+
+
+		sword.Draw(shaderProgram, camera, swordMatrix, swordPos, swordRotation, swordScale);
+		scroll.Draw(shaderProgram, camera, scrollMatrix, scrollPos, scrollRotation, scrollScale);
+
+		pyramid.Draw(shaderProgram, camera, pyramidModel, pyramidPos);
+		light.Draw(lightShader, camera, lightModel, lightPos);
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
 		glfwPollEvents();
+
+
+		// current time at the end of the loop
+		auto end = std::chrono::steady_clock::now();
+		// Calculate FPS
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+		auto fpsCount = 1000000 / duration.count();
+		std::cout << "FPS: " << fpsCount << std::endl;
 	}
 
 
