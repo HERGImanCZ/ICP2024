@@ -162,6 +162,7 @@
   <ItemGroup>
     <None Include="default.frag" />
     <None Include="default.vert" />
+    <None Include="grass.frag" />
     <None Include="light.frag" />
     <None Include="light.vert" />
     <None Include="object.frag" />
@@ -181,6 +182,9 @@
     <Image Include="..\..\..\..\..\..\Downloads\pop_cat.png" />
     <Image Include="amogus.png" />
     <Image Include="brick2.png" />
+    <Image Include="earth.png" />
+    <Image Include="earthSpec.png" />
+    <Image Include="grass.png" />
     <Image Include="planks.png" />
     <Image Include="planksSpec.png" />
     <Image Include="sand.png" />

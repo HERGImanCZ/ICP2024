@@ -5,8 +5,47 @@
 const unsigned int width = 800;
 const unsigned int height = 800;
 
-// Vertices coordinates
+// Floor vertices coordinates
 Vertex vertices[] =
+{ //               COORDINATES           /            COLORS          /           NORMALS         /       TEXTURE COORDINATES    //
+	Vertex{glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+	Vertex{glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+	Vertex{glm::vec3(1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+	Vertex{glm::vec3(1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
+};
+
+// Indices for vertices order
+GLuint indices[] =
+{
+	0, 1, 2,
+	0, 2, 3
+};
+
+Vertex grassVertices1[] =
+{ //               COORDINATES           /            COLORS          /           NORMALS         /       TEXTURE COORDINATES    //
+	Vertex{glm::vec3(-0.85f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+	Vertex{glm::vec3(-0.85f,  1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+	Vertex{glm::vec3(0.15f,  1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+	Vertex{glm::vec3(0.15f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
+};
+
+Vertex grassVertices2[] =
+{ //               COORDINATES           /            COLORS          /           NORMALS         /       TEXTURE COORDINATES    //
+	Vertex{glm::vec3(0.85f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+	Vertex{glm::vec3(0.85f,  1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+	Vertex{glm::vec3(-0.15f,  1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+	Vertex{glm::vec3(-0.15f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
+};
+
+// Indices for vertices order
+GLuint grassIndices[] =
+{
+	0, 1, 2,
+	0, 2, 3
+};
+
+// Vertices coordinates
+Vertex pyramidVertices[] =
 {
 	//NEW: POSITION, NORMALS, COLOR, TEXCOORD
 	Vertex{glm::vec3(-0.5f, 0.0f,  0.5f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.83f, 0.70f, 0.44f), glm::vec2(0.0f, 0.0f)},
@@ -50,7 +89,7 @@ Vertex vertices[] =
 };
 
 // Indices for vertices order
-GLuint indices[] =
+GLuint pyramidIndices[] =
 {
 	0, 1, 2, // Bottom side
 	0, 2, 3, // Bottom side
@@ -120,26 +159,56 @@ int main()
 	// In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
 	glViewport(0, 0, width, height);
 
-	Texture textures[]{
+	Texture pyramidTextures[]{
 		// Textures
 		Texture("sand.png", "diffuse", GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
-		Texture("sandSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
+		//Texture("sandSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
+	};
+
+	// Generates Shader object using shaders default.vert and default.frag
+	Shader pyramidShader("default.vert", "default.frag");
+	// Ceating model of pyramid
+	std::vector<Vertex> pyramidVerts(pyramidVertices, pyramidVertices + sizeof(pyramidVertices) / sizeof(Vertex));
+	std::vector<GLuint> pyramidInd(pyramidIndices, pyramidIndices + sizeof(pyramidIndices) / sizeof(GLuint));
+	std::vector<Texture> pyramidTex(pyramidTextures, pyramidTextures + sizeof(pyramidTextures) / sizeof(Texture));
+	Mesh pyramid(pyramidVerts, pyramidInd, pyramidTex);
+
+	Texture earthTextures[]{
+		// Textures
+		Texture("earth.png", "diffuse", GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE),
+		//Texture("earthSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
 	};
 
 	// Generates Shader object using shaders default.vert and default.frag
 	Shader shaderProgram("default.vert", "default.frag");
-	// Ceating model of pyramid
-	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
-	std::vector<GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
-	std::vector<Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
-	Mesh pyramid(verts, ind, tex);
+	// Ceating model of earth
+	std::vector<Vertex> earthVerts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
+	std::vector<GLuint> earthInd(indices, indices + sizeof(indices) / sizeof(GLuint));
+	std::vector<Texture> earthTex(earthTextures, earthTextures + sizeof(earthTextures) / sizeof(Texture));
+	Mesh floor(earthVerts, earthInd, earthTex);
+
+	Texture grassTextures[]{
+		// Textures
+		Texture("grass.png", "diffuse", GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE),
+	};
+
+	// Generates Shader object using shaders default.vert and grass.frag
+	Shader grassShader1("default.vert", "grass.frag");
+	Shader grassShader2("default.vert", "grass.frag");
+	// Ceating model of grass
+	std::vector<Vertex> grassVerts1(grassVertices1, grassVertices1 + sizeof(grassVertices1) / sizeof(Vertex));
+	std::vector<Vertex> grassVerts2(grassVertices2, grassVertices2 + sizeof(grassVertices2) / sizeof(Vertex));
+	std::vector<GLuint> grassInd(grassIndices, grassIndices + sizeof(grassIndices) / sizeof(GLuint));
+	std::vector<Texture> grassTex(grassTextures, grassTextures + sizeof(grassTextures) / sizeof(Texture));
+	Mesh grass1(grassVerts1, grassInd, grassTex);
+	Mesh grass2(grassVerts2, grassInd, grassTex);
 
 	// Shader for light cube
 	Shader lightShader("light.vert", "light.frag");
 	// Creazing model of Sun
 	std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 	std::vector<GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
-	Mesh light(lightVerts, lightInd, tex);
+	Mesh light(lightVerts, lightInd, pyramidTex);
 
 
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -151,14 +220,33 @@ int main()
 	glm::mat4 pyramidModel = glm::mat4(1.0f);
 	pyramidModel = glm::translate(pyramidModel, pyramidPos);
 
+	glm::vec3 earthPos = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 earthModel = glm::mat4(1.0f);
+	earthModel = glm::translate(earthModel, earthPos);
+
+	glm::vec3 grassPos = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 grassModel = glm::mat4(1.0f);
+	grassModel = glm::translate(grassModel, grassPos);
 
 	lightShader.Activate();
 	glUniformMatrix4fv(glGetUniformLocation(lightShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
 	glUniform4f(glGetUniformLocation(lightShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	pyramidShader.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(pyramidShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
+	glUniform4f(glGetUniformLocation(pyramidShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform3f(glGetUniformLocation(pyramidShader.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 	shaderProgram.Activate();
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(earthModel));
 	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+	grassShader1.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(grassShader1.ID, "model"), 1, GL_FALSE, glm::value_ptr(grassModel));
+	glUniform4f(glGetUniformLocation(grassShader1.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform3f(glGetUniformLocation(grassShader1.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+	grassShader2.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(grassShader2.ID, "model"), 1, GL_FALSE, glm::value_ptr(grassModel));
+	glUniform4f(glGetUniformLocation(grassShader1.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform3f(glGetUniformLocation(grassShader1.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
 
 	// Enables the Depth Buffer
@@ -220,11 +308,14 @@ int main()
 		scrollMatrix = glm::translate(scrollMatrix, scrollPos);
 
 
-		sword.Draw(shaderProgram, camera, swordMatrix, swordPos, swordRotation, swordScale);
-		scroll.Draw(shaderProgram, camera, scrollMatrix, scrollPos, scrollRotation, scrollScale);
+		sword.Draw(pyramidShader, camera, swordMatrix, swordPos, swordRotation, swordScale);
+		scroll.Draw(pyramidShader, camera, scrollMatrix, scrollPos, scrollRotation, scrollScale);
 
-		pyramid.Draw(shaderProgram, camera, pyramidModel, pyramidPos);
+		pyramid.Draw(pyramidShader, camera, pyramidModel, pyramidPos);
 		light.Draw(lightShader, camera, lightModel, lightPos);
+		floor.Draw(shaderProgram, camera);
+		grass1.Draw(grassShader1, camera);
+		grass2.Draw(grassShader2, camera);
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
@@ -243,7 +334,7 @@ int main()
 
 
 	// Delete all the objects we've created
-	shaderProgram.Delete();
+	pyramidShader.Delete();
 	lightShader.Delete();
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
