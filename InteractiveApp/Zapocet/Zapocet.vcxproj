@@ -165,8 +165,6 @@
     <None Include="grass.frag" />
     <None Include="light.frag" />
     <None Include="light.vert" />
-    <None Include="object.frag" />
-    <None Include="object.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -180,7 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\..\Downloads\pop_cat.png" />
-    <Image Include="amogus.png" />
     <Image Include="brick2.png" />
     <Image Include="earth.png" />
     <Image Include="earthSpec.png" />

@@ -123,7 +123,7 @@ int main()
 	// So that means we only have the modern functions
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
+	// Create a GLFWwindow object of 800 by 800 pixels
 	GLFWwindow* window = glfwCreateWindow(width, height, "Amogus", NULL, NULL);
 	// Error check if the window fails to create
 	if (window == NULL)
@@ -243,11 +243,17 @@ int main()
 	glm::quat swordRotation = glm::quat(0.5f, 0.2f, -0.4f, 0.0f);
 	glm::vec3 swordScale = glm::vec3(0.01f, 0.01f, 0.01f);
 
-	Model scroll("scroll/scene.gltf");
-	glm::vec3 scrollPos = glm::vec3(0.5f, 0.5f, -0.5f);
-	glm::mat4 scrollMatrix = glm::mat4(1.0f);
-	glm::quat scrollRotation = glm::quat(1.0f, 0.0f, 0.0f, 0.5f);
-	glm::vec3 scrollScale = glm::vec3(0.002f, 0.002f, 0.002f);
+	Model scroll1("scroll/scene.gltf");
+	glm::vec3 scrollPos1 = glm::vec3(0.5f, 0.5f, -0.5f);
+	glm::mat4 scrollMatrix1 = glm::mat4(1.0f);
+	glm::quat scrollRotation1 = glm::quat(1.0f, 0.0f, 0.0f, 0.5f);
+	glm::vec3 scrollScale1 = glm::vec3(0.002f, 0.002f, 0.002f);
+
+	Model scroll2("scroll/scene.gltf");
+	glm::vec3 scrollPos2 = glm::vec3(0.7f, 0.5f, -0.5f);
+	glm::mat4 scrollMatrix2 = glm::mat4(1.0f);
+	glm::quat scrollRotation2 = glm::quat(1.0f, 0.0f, 0.0f, 0.5f);
+	glm::vec3 scrollScale2 = glm::vec3(0.002f, 0.002f, 0.002f);
 
 	//promenne pro pohyb
 	float scrollMovePos = 0.5f;
@@ -273,7 +279,7 @@ int main()
 		{
 			std::string FPS = std::to_string(int((1.0 / timeDiff) * counter));
 			std::cout << "FPS: " << FPS << std::endl;
-			glfwSetWindowTitle(window, ("Amogus: " + FPS + " FPS").c_str());
+			glfwSetWindowTitle(window, (FPS + " FPS").c_str());
 			prevTime = crntTime;
 			counter = 0;
 		}
@@ -314,13 +320,22 @@ int main()
 			}
 		}
 		//scroll model reset with new position
-		scrollMatrix = glm::mat4(1.0f);
-		scrollPos = glm::vec3(0.5f, scrollMovePos, -0.5f);
-		scrollMatrix = glm::translate(scrollMatrix, scrollPos);
+		scrollMatrix1 = glm::mat4(1.0f);
+		scrollPos1 = glm::vec3(0.5f, scrollMovePos, -0.5f);
+		scrollMatrix1 = glm::translate(scrollMatrix1, scrollPos1);
+
+		scrollMatrix2 = glm::mat4(1.0f);
+		scrollPos2 = glm::vec3(0.75f, -scrollMovePos + 0.8f, -0.5f);
+		scrollMatrix2 = glm::translate(scrollMatrix2, scrollPos2);
+
+		swordMatrix = glm::mat4(1.0f);
+		swordRotation = glm::quat(0.5f, 0.2f, -0.4f, 2*scrollMovePos);
+		swordMatrix = glm::translate(swordMatrix, swordPos);
 
 
 		sword.Draw(pyramidShader, camera, swordMatrix, swordPos, swordRotation, swordScale);
-		scroll.Draw(pyramidShader, camera, scrollMatrix, scrollPos, scrollRotation, scrollScale);
+		scroll1.Draw(pyramidShader, camera, scrollMatrix1, scrollPos1, scrollRotation1, scrollScale1);
+		scroll2.Draw(pyramidShader, camera, scrollMatrix2, scrollPos2, scrollRotation2, scrollScale2);
 
 		pyramid.Draw(pyramidShader, camera, pyramidModel, pyramidPos);
 		light.Draw(lightShader, camera, lightModel, lightPos);
